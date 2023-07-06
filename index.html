@@ -1,0 +1,51 @@
+<!doctype HTML>
+<html>
+    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.2/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.2/dist/aframe-extras.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+        AFRAME.registerComponent('vidhandler', {
+            init: function() {
+                this.toggle = false;
+                this.vid = document.querySelector("#vid");
+                this.vid.pause();
+            },
+            tick: function() {
+                if (this.el.object3D.visible == true) {
+                    if (!this.toggle) {
+                        this.toggle = true;
+                        this.vid.play();
+                    }
+                } else {
+                    this.toggle = false;
+                    this.vid.pause();
+                }
+            }
+        });
+
+        function refrespage() {
+            location.reload();
+        }
+
+        function playvid() {
+            vid.play();
+        }
+    </script>
+
+<body style='margin : 0px; overflow: hidden;'>
+    <a-scene embedded arjs='sourceType: webcam; detectionMode: mono; trackingMethod: best; debugUIEnabled: false;' vr-mode-ui="enabled: false">
+    <a-assets>
+            <video preload="auto" id="vid" poster="assets/thumbnail.png" response-type="arraybuffer" loop="true" autoplay type="video/mp4" crossorigin webkit-playsinline playsinline controls>
+                <source  src="assets/asset.mp4">
+                <img src="assets/thumbnail.png"> Your browser does not support Or Else Please Click Reset Button.
+            </video>
+        </a-assets>  
+         <a-marker id="memarker" type="pattern" url="assets/marker.patt" vidhandler>
+            <a-video position='2 0 0' rotation="-90 0 0" scale="3.54 2 3.54" material='transparent:true;src:#vid' play="true" controls></a-video>
+        </a-marker>
+      
+    <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
